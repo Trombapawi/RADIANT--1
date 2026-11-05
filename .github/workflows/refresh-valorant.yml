@@ -1,0 +1,44 @@
+name: Refresh VALORANT profile
+
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: valorant-profile-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch current rank and recent competitive matches
+        run: node scripts/refresh-valorant.mjs
+        env:
+          HENRIKDEV_API_KEY: ${{ secrets.HENRIKDEV_API_KEY }}
+          RIOT_ID: Julc1a#uwu
+          VALORANT_REGION: eu
+
+      - name: Publish updated profile data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/valorant-stats.json
+          if git diff --cached --quiet; then
+            echo "No profile changes to publish."
+          else
+            git commit -m "chore: refresh VALORANT profile data"
+            git push
+          fi

@@ -1,0 +1,978 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#100b18">
+<title>Road to Radiant — Daily Protocol</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#100b18;--surface:#191224;--surface-raised:#261b36;--line:#3e2d55;
+  --text:#f5f0ff;--muted:#aa9bbd;--accent:#b98aff;--progress-mid:#ee72cb;--progress-end:#78e5d3;
+  --rank:#a8a7ae;--rank-glow:#a8a7ae33;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:"Segoe UI",sans-serif}
+body{min-height:100vh;padding:28px 20px;background:radial-gradient(ellipse at 6% 3%,#54267540,transparent 34%),radial-gradient(ellipse at 96% 95%,#143f4938,transparent 33%),var(--bg)}
+button,input,select,textarea{font:inherit}
+button{color:inherit}
+.shell{width:min(100%,1240px);margin:auto}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 20px}
+.brand{display:flex;align-items:center;gap:11px;font-size:12px;font-weight:800;letter-spacing:.13em}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;background:var(--accent);color:#171311;clip-path:polygon(0 0,100% 0,100% 74%,74% 100%,0 100%);font-size:16px}
+.brand-name{color:#f4f2ee}.brand-name span{color:var(--accent)}
+.top-actions{display:flex;align-items:center;gap:15px}
+.date{color:var(--muted);font-size:11px;text-align:right}
+.icon-button{width:39px;height:39px;display:grid;place-items:center;border:1px solid var(--line);background:#181a1fd9;border-radius:10px;cursor:pointer;transition:border-color .18s,background .18s}
+.icon-button:hover{border-color:var(--accent);background:var(--surface-raised)}
+.icon-button svg{width:18px;height:18px}
+.card{display:grid;grid-template-columns:184px minmax(0,1fr);grid-template-rows:auto 1fr;overflow:hidden;border:1px solid #ffffff15;border-radius:15px;background:#14101bf2;box-shadow:0 26px 80px #0007}
+.hero{grid-column:2;grid-row:1}
+.hero{padding:30px 32px 27px;background:linear-gradient(112deg,#ffffff06,transparent 57%);border-bottom:1px solid var(--line)}
+.hero-top{display:grid;grid-template-columns:minmax(0,1fr) 250px;align-items:center;gap:28px}
+.eyebrow,.overline{color:var(--accent);font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+h1{margin:10px 0 8px;font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;font-size:38px;font-weight:500;line-height:1.04;letter-spacing:.01em;text-transform:uppercase}
+h1 span{color:var(--accent)}
+.subtitle{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+.rank-display{display:grid;grid-template-columns:78px 1fr;align-items:center;gap:15px;min-height:100px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;background:repeating-linear-gradient(135deg,#ffffff04 0,#ffffff04 1px,transparent 1px,transparent 9px),#ffffff04}
+.rank-emblem{width:76px;height:76px;color:var(--rank);filter:drop-shadow(0 0 13px var(--rank-glow))}
+.rank-emblem img{display:block;width:100%;height:100%;object-fit:contain}
+.rank-caption{display:block;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+.rank-copy{min-width:0}
+.rank-line{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px;margin-top:5px}
+.rank-name{display:block;margin:0;font-size:17px;font-weight:800;line-height:1.2}
+.rank-tier{display:block;margin:0;color:var(--accent);font-size:11px;font-weight:800}
+.peak-line{display:flex;align-items:baseline;gap:7px;margin-top:7px;padding-top:6px;border-top:1px solid #ffffff0d}
+.peak-label{color:var(--muted);font-size:8px;font-weight:800;letter-spacing:.12em}
+.peak-line strong{font-size:10px;font-weight:700}
+.stats{display:grid;grid-template-columns:1fr auto;align-items:end;gap:18px;margin-top:26px}
+.progress-label{display:flex;justify-content:space-between;gap:12px;margin-bottom:10px;color:var(--muted);font-size:11px;font-weight:700;letter-spacing:.08em}
+.progress-label strong{color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:0}
+.streak-summary{display:flex;justify-content:space-between;gap:12px;margin-top:9px;color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.08em}
+.streak-summary strong{color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:0}
+.track{height:12px;overflow:hidden;border:1px solid #ffffff12;border-radius:20px;background:linear-gradient(90deg,color-mix(in srgb,var(--accent),#090a0d 72%),color-mix(in srgb,var(--progress-mid),#090a0d 72%) 53%,color-mix(in srgb,var(--progress-end),#090a0d 72%))}
+.fill{width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,var(--accent),var(--progress-mid) 53%,var(--progress-end));box-shadow:0 0 18px color-mix(in srgb,var(--accent),transparent 40%);transition:width .28s ease}
+.percent{min-width:76px;color:var(--progress-end);font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;font-size:32px;text-align:right}
+.content{padding:24px 32px 26px}
+.app-tabs{display:flex;grid-column:1;grid-row:1 / span 2;flex-direction:column;gap:7px;padding:24px 12px;border-right:1px solid var(--line);background:#100b18}
+.app-tab{position:relative;min-height:46px;padding:0 13px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.1em;text-align:left;text-transform:uppercase;cursor:pointer}
+.app-tab:hover,.app-tab.active{color:var(--text)}
+.app-tab.active{border-color:#b98aff45;background:#b98aff14;color:#e3ceff}
+.tab-page[hidden]{display:none}
+.tab-page{grid-column:2;grid-row:2;min-width:0}
+.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(270px,.7fr);gap:14px;margin-top:18px}
+.panel{min-width:0;padding:17px;border:1px solid var(--line);border-radius:9px;background:linear-gradient(145deg,#ffffff06,#ffffff02)}
+.panel-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px}
+.panel-heading h2{margin:0;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.panel-heading span{color:var(--muted);font-size:10px}
+.home-checklist{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.home-checklist .item{min-height:45px;padding:9px 10px}
+.home-checklist .item span{font-size:11px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.metric{padding:10px 11px;border:1px solid #ffffff12;border-radius:7px;background:#ffffff04}
+.metric-label{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.metric-value{display:block;margin-top:5px;font-size:21px;font-weight:800;font-variant-numeric:tabular-nums}
+.sync-status{display:grid;grid-template-columns:8px minmax(0,1fr) 30px;align-items:center;gap:8px;margin:-4px 0 12px;color:var(--muted);font-size:9px;line-height:1.4}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#c9aaff;box-shadow:0 0 9px #b98aff70}
+.sync-status[data-state=success] .sync-dot{background:#78e5d3;box-shadow:0 0 9px #78e5d380}
+.sync-status button{width:28px;height:28px;border:1px solid var(--line);border-radius:5px;background:#ffffff05;color:var(--muted);font-size:16px;cursor:pointer}
+.sync-status button:hover{border-color:var(--accent);color:var(--text)}
+.sync-status{display:grid;grid-template-columns:8px minmax(0,1fr) 30px;align-items:center;gap:8px;margin:-4px 0 12px;color:var(--muted);font-size:9px;line-height:1.4}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#c9aaff;box-shadow:0 0 9px #b98aff70}
+.sync-status[data-state=success] .sync-dot{background:#78e5d3;box-shadow:0 0 9px #78e5d380}
+.sync-status button{width:28px;height:28px;border:1px solid var(--line);border-radius:5px;background:#ffffff05;color:var(--muted);font-size:16px;cursor:pointer}
+.sync-status button:hover{border-color:var(--accent);color:var(--text)}
+.match-form{display:grid;grid-template-columns:1fr 92px;gap:8px;margin-top:12px}
+.match-form label,.add-agent-form label{display:grid;gap:6px;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.match-form select,.match-form input,.add-agent-form input{width:100%;height:38px;padding:0 9px;border:1px solid var(--line);border-radius:6px;background:#111216;color:var(--text);font-size:12px}
+.match-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.match-button{min-height:37px;border:1px solid #41cda0;border-radius:6px;background:#41cda01a;color:#75e3bd;font-size:10px;font-weight:900;letter-spacing:.07em;cursor:pointer}
+.match-button.loss{border-color:#ff6456;background:#ff64561a;color:#ff8a7f}
+.match-button:hover{filter:brightness(1.2)}
+.chart{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));align-items:end;gap:8px;height:142px;padding:10px 5px 0;border-bottom:1px solid var(--line);background:repeating-linear-gradient(to top,transparent 0,transparent 34px,#ffffff0b 35px,#ffffff0b 36px)}
+.chart-column{display:grid;grid-template-rows:auto minmax(0,1fr) auto;align-items:end;height:100%;gap:7px;text-align:center}
+.chart-value{color:var(--muted);font-size:9px;font-variant-numeric:tabular-nums}
+.chart-bar-wrap{display:flex;align-items:end;justify-content:center;height:100%}
+.chart-bar{width:min(24px,75%);min-height:3px;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--progress-end),var(--accent));box-shadow:0 0 13px color-mix(in srgb,var(--accent),transparent 65%);transition:height .25s ease}
+.chart-day{color:var(--muted);font-size:9px}
+.agent-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.agent-card{display:grid;gap:5px;min-width:0;padding:10px;border:1px solid var(--line);border-radius:7px;background:#ffffff04;text-align:left;cursor:pointer}
+.agent-card:hover,.agent-card.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent),transparent 91%)}
+.agent-name{overflow:hidden;color:var(--text);font-size:11px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+.agent-kills{color:var(--muted);font-size:10px}
+.favorite-agent{display:grid;gap:4px;margin-bottom:12px;padding:13px 15px;border:1px solid #b98aff45;border-radius:8px;background:linear-gradient(110deg,#b98aff1b,#ffffff03 70%)}
+.favorite-kicker{color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.13em}
+.favorite-agent strong{font-size:18px}
+.favorite-agent>span:last-child{color:var(--muted);font-size:10px}
+.reset-matches{min-height:30px;padding:0 9px;font-size:9px}
+.add-agent-form{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:9px;margin-top:12px}
+.match-history{display:grid;gap:7px;margin:13px 0 0;padding:0;list-style:none}
+.match-history li{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid #ffffff0d;color:var(--muted);font-size:10px}
+.match-result-win{color:#75e3bd}.match-result-loss{color:#ff8a7f}
+.rank-settings{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.75fr);gap:20px;align-items:start}
+.rank-form{display:grid;gap:13px}
+.peak-settings{display:grid;gap:9px;padding-top:12px;border-top:1px solid var(--line)}
+.peak-settings h3{margin:0;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.peak-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rank-threshold-info{margin:0;padding:11px 12px;border-left:2px solid var(--accent);background:color-mix(in srgb,var(--accent),transparent 94%);color:var(--muted);font-size:11px;line-height:1.55}
+.threshold-table{width:100%;margin-top:20px;border-collapse:collapse;font-size:11px}
+.table-scroll{overflow-x:auto}
+.threshold-table th,.threshold-table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+.threshold-table th{color:var(--muted);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+.threshold-table tr.current-region td{color:#e2ceff;background:color-mix(in srgb,var(--accent),transparent 94%)}
+.rank-source{display:block;margin-top:10px;color:var(--muted);font-size:10px;text-decoration:none}
+.rank-source:hover{color:var(--accent)}
+.rank-preview{display:grid;justify-items:center;gap:9px;padding:22px;border:1px solid var(--line);border-radius:9px;background:radial-gradient(ellipse at 50% 15%,#b98aff20,transparent 62%),#ffffff03;text-align:center}
+.rank-preview .rank-emblem{width:128px;height:128px}
+.rank-preview .rank-name{font-size:23px}
+.rr-control{display:grid;grid-template-columns:1fr 82px;align-items:center;gap:12px}
+.rr-control input[type=range]{width:100%;accent-color:var(--accent)}
+.rr-number{height:39px;padding:0 8px;border:1px solid var(--line);border-radius:6px;background:#111216;color:var(--text);text-align:center}
+.routine-guide{display:grid;gap:9px}
+.training-block{margin-bottom:13px}
+.warmup-list{display:grid;gap:8px}
+.warmup-row{display:grid;grid-template-columns:minmax(0,1fr) 92px 74px;align-items:center;gap:12px;padding:9px 11px;border:1px solid #ffffff0d;border-radius:6px;background:#ffffff03}
+.warmup-name{font-size:11px;font-weight:700}
+.warmup-target{color:var(--muted);font-size:10px}
+.warmup-time{width:74px;height:34px;padding:0 7px;border:1px solid var(--line);border-radius:5px;background:#110d18;color:var(--text);font-size:12px;text-align:center}
+.warmup-row.complete{border-color:#78e5d35c;background:#78e5d30a}
+.warmup-row.complete .warmup-name{color:#a1f2e4}
+.training-block .panel-heading h2{color:#e8d8ff}
+.vod-panel{display:grid;gap:13px}
+.vod-panel textarea{min-height:88px}
+.vod-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(240px,.55fr);align-items:start;gap:14px}
+.vod-form{display:grid;grid-template-columns:minmax(0,1fr) 92px 130px;gap:12px}
+.vod-form textarea{min-height:78px}
+.vod-wide{grid-column:1/-1}
+.vod-form .button{justify-self:start;min-width:170px}
+.error-legend{display:grid;gap:9px}
+.legend-item{display:grid;grid-template-columns:9px minmax(0,1fr);align-items:start;gap:9px;padding:8px 0;border-bottom:1px solid #ffffff0d}
+.legend-mark{width:7px;height:7px;margin-top:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.legend-item strong{display:block;font-size:10px}
+.legend-item span:last-child{display:block;margin-top:3px;color:var(--muted);font-size:9px;line-height:1.45}
+.vod-library{margin-top:15px}
+.vod-library-list{display:grid;gap:9px}
+.vod-empty{margin:0;color:var(--muted);font-size:11px}
+.vod-entry{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:13px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:7px;background:#ffffff03}
+.vod-entry-main{min-width:0}
+.vod-entry-meta{display:flex;flex-wrap:wrap;gap:7px 12px;color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
+.vod-entry h3{margin:9px 0 4px;font-size:11px}
+.vod-entry p{margin:0 0 8px;color:#ded7ea;font-size:11px;line-height:1.5;overflow-wrap:anywhere}
+.vod-entry .vod-next{color:#cdb9e8}
+.vod-entry a{color:var(--progress-end);font-size:10px;text-decoration:none}
+.vod-entry a:hover{text-decoration:underline}
+.vod-delete{align-self:start;width:30px;height:30px;border:1px solid var(--line);border-radius:5px;background:transparent;color:var(--muted);cursor:pointer}
+.vod-delete:hover{border-color:#ff817f;color:#ff817f}
+.routine-step{display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:7px;background:#ffffff03}
+.routine-number{display:grid;place-items:center;width:30px;height:30px;border:1px solid #ff59455a;border-radius:50%;color:var(--accent);font-size:11px;font-weight:800}
+.routine-title{font-size:12px;font-weight:700}
+.routine-detail{margin-top:4px;color:var(--muted);font-size:10px;line-height:1.45}
+.routine-status{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.routine-step.done .routine-number{background:var(--accent);color:#171311}
+.routine-step.done .routine-status{color:#75e3bd}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px}
+.section-head h2{margin:0;font-size:12px;letter-spacing:.13em;text-transform:uppercase}
+.pill{padding:6px 9px;border:1px solid var(--line);border-radius:5px;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.08em;white-space:nowrap}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.item{display:flex;align-items:center;gap:12px;min-height:52px;padding:11px 13px;border:1px solid #ffffff12;border-radius:8px;background:#ffffff04;cursor:pointer;transition:border-color .16s,background .16s}
+.item:hover{border-color:color-mix(in srgb,var(--accent),transparent 42%);background:#ffffff08}
+.item input{appearance:none;display:grid;place-items:center;flex:0 0 18px;width:18px;height:18px;margin:0;border:1.5px solid #666974;border-radius:5px;cursor:pointer}
+.item input:checked{border-color:var(--accent);background:var(--accent)}
+.item input:checked:after{content:"✓";color:#141519;font-size:13px;font-weight:900}
+.item span{color:#dddde0;font-size:12px;line-height:1.4}
+.item.done{border-color:#ffffff12;background:#ffffff03}
+.item.done span{color:#858790;text-decoration:line-through;text-decoration-color:var(--accent)}
+.bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:16px;margin-top:22px}
+.notes label,.field-label{display:block;margin-bottom:8px;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+textarea{width:100%;min-height:70px;resize:vertical;padding:11px 12px;border:1px solid var(--line);border-radius:8px;outline:none;background:#0f1013;color:var(--text);font-size:12px;line-height:1.5}
+textarea:focus,select:focus,input[type=range]:focus-visible{border-color:var(--accent);outline:2px solid color-mix(in srgb,var(--accent),transparent 74%);outline-offset:1px}
+.actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px}
+.button{min-height:39px;padding:0 13px;border:1px solid var(--accent);border-radius:7px;background:var(--accent);color:#171311;font-size:10px;font-weight:900;letter-spacing:.06em;cursor:pointer}
+.button:hover{filter:brightness(1.1)}
+.button.secondary{border-color:var(--line);background:transparent;color:var(--muted)}
+.button.secondary:hover{border-color:var(--accent);color:var(--text)}
+.footer{display:flex;justify-content:space-between;gap:12px;margin-top:19px;color:#777982;font-size:9px;font-weight:700;letter-spacing:.1em}
+.tracker-section{margin:0 0 24px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+.tracker-heading{margin:0 0 12px;font-size:12px;letter-spacing:.13em;text-transform:uppercase}
+.tracker-lookup{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px}
+.tracker-field{display:grid;gap:7px}
+.tracker-field span{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.tracker-field input{width:100%;height:40px;padding:0 11px;border:1px solid var(--line);border-radius:7px;outline:none;background:#0f1013;color:var(--text);font-size:12px}
+.tracker-field input:focus{border-color:var(--accent);outline:2px solid color-mix(in srgb,var(--accent),transparent 74%);outline-offset:1px}
+.tracker-note,.tracker-status{margin:9px 0 0;color:var(--muted);font-size:10px;line-height:1.55}
+.tracker-status:empty{display:none}
+.tracker-results{display:none;grid-template-columns:minmax(0,1.35fr) minmax(250px,.65fr);gap:18px;margin-top:17px}
+.tracker-results.visible{display:grid}
+.tracker-profile-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.tracker-profile-head span,.analysis-caption{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.tracker-profile-head a{color:var(--accent);font-size:10px;font-weight:700;text-decoration:none}
+.tracker-profile-head a:hover{text-decoration:underline}
+.tracker-frame{display:block;width:100%;height:650px;border:1px solid var(--line);border-radius:8px;background:#101114}
+.tracker-insights h3{margin:0 0 7px;font-size:13px}
+.tracker-insights>p{margin:0 0 13px;color:var(--muted);font-size:10px;line-height:1.55}
+.tracker-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tracker-stats .tracker-field input{height:38px}
+.analysis-caption{margin:18px 0 8px}
+.analysis-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.analysis-list li{padding-left:12px;border-left:2px solid var(--accent);color:#dedde0;font-size:11px;line-height:1.5}
+.analysis-empty{color:var(--muted)!important;font-size:11px!important}
+dialog{width:min(100% - 28px,490px);max-height:min(90vh,760px);padding:0;overflow:auto;border:1px solid #ffffff1a;border-radius:13px;background:var(--surface);color:var(--text);box-shadow:0 28px 100px #000b}
+dialog::backdrop{background:#07080bbf;backdrop-filter:blur(5px)}
+.settings-head{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+.settings-head h2{margin:0;font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;font-size:23px;font-weight:500;letter-spacing:.02em;text-transform:uppercase}
+.settings-body{display:grid;gap:21px;padding:20px 22px}
+.settings-section{display:grid;gap:12px}
+.settings-section h3{margin:0;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.color-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.color-field{display:flex;align-items:center;justify-content:space-between;gap:9px;min-height:44px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:#ffffff04;color:#dedde0;font-size:11px}
+.color-field input{width:32px;height:26px;padding:0;border:0;border-radius:4px;background:none;cursor:pointer}
+.select-field{display:grid;gap:7px}
+.select-field select{width:100%;height:42px;padding:0 10px;border:1px solid var(--line);border-radius:7px;background:#111216;color:var(--text);font-size:12px}
+.radiant-setting{display:none;gap:9px;margin-top:4px}
+.radiant-setting.visible{display:grid}
+.range-row{display:flex;align-items:center;gap:12px}
+.range-row input{width:100%;accent-color:var(--accent)}
+.range-row input[type=range]{direction:rtl}
+.range-value{min-width:52px;color:var(--accent);font-size:16px;font-weight:900;text-align:right}
+.placement-setting{display:none;gap:9px;margin-top:4px}
+.placement-setting.visible{display:grid}
+.rr-input{width:100%;height:42px;padding:0 10px;border:1px solid var(--line);border-radius:7px;background:#111216;color:var(--text);font-size:12px}
+.settings-footer{display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--line)}
+.toast{position:fixed;right:22px;bottom:22px;z-index:2;padding:11px 15px;border:1px solid var(--line);border-radius:7px;background:#202229;color:var(--text);font-size:12px;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:700px){body{padding:19px 12px}.card{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto 1fr}.hero{grid-column:1;grid-row:1;padding:22px 18px}.content{padding:19px 18px 22px}.hero-top{grid-template-columns:1fr;gap:17px}.rank-display{grid-template-columns:62px 1fr;min-height:80px}.rank-emblem{width:60px;height:60px}h1{font-size:32px}.items{grid-template-columns:1fr}.bottom{grid-template-columns:1fr}.actions{justify-content:flex-start}.footer{flex-direction:column}.date{max-width:180px;font-size:10px}.tracker-results{grid-template-columns:1fr}.tracker-frame{height:560px}.app-tabs{grid-column:1;grid-row:2;flex-direction:row;gap:3px;padding:5px 9px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}.app-tab{flex:1 0 auto;min-height:42px;padding:0 10px;text-align:center;font-size:9px}.tab-page{grid-column:1;grid-row:3}.warmup-row{grid-template-columns:minmax(0,1fr) 78px 68px;gap:7px;padding:8px}.warmup-time{width:68px}.threshold-table th,.threshold-table td{padding:8px 6px;font-size:10px}.vod-layout{grid-template-columns:1fr}.vod-form{grid-template-columns:minmax(0,1fr) 84px}.vod-form .select-field:nth-of-type(3){grid-column:1/-1}.vod-wide{grid-column:1/-1}}
+@media(max-width:900px){.dashboard-grid{grid-template-columns:1fr 1fr}.dashboard-grid .panel:first-child{grid-column:1/-1}.agent-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.app-tabs{padding:0 14px;overflow-x:auto}.app-tab{flex:1 0 auto;padding:0 11px;font-size:9px}.dashboard-grid{grid-template-columns:1fr}.dashboard-grid .panel:first-child{grid-column:auto}.home-checklist{grid-template-columns:1fr}.rank-settings{grid-template-columns:1fr}.agent-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:420px){.topline{align-items:flex-start}.top-actions{gap:9px}.brand{font-size:10px}.brand-mark{width:30px;height:30px}.date{max-width:135px}.section-head{align-items:flex-start;flex-direction:column}.color-grid{grid-template-columns:1fr}.tracker-lookup{grid-template-columns:1fr}.tracker-lookup .button{width:100%}.tracker-stats{gap:8px}.metrics{gap:5px}.metric{padding:8px}.metric-value{font-size:18px}.match-form{grid-template-columns:minmax(0,1fr) 80px}.agent-list{grid-template-columns:repeat(2,minmax(0,1fr))}.routine-step{grid-template-columns:30px minmax(0,1fr) auto;gap:8px;padding:10px}.app-tab{font-size:8px}.reset-matches{font-size:8px;padding:0 6px}.threshold-table{min-width:500px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="topline">
+    <div class="brand"><div class="brand-mark" aria-hidden="true">R</div><span class="brand-name">Droga do <span>RADIANTA</span></span></span></div>
+    <div class="top-actions">
+      <div class="date" id="date"></div>
+      <button class="icon-button" id="openSettings" type="button" aria-label="Otwórz ustawienia" title="Ustawienia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Z"/><path d="m19.4 13.5 1.1.9-1.1 1.9-1.4-.5a7.8 7.8 0 0 1-1.5.9l-.2 1.5h-2.2l-.4-1.4a7.8 7.8 0 0 1-1.8 0l-.9 1.1-1.9-1.1.5-1.4a7.8 7.8 0 0 1-.9-1.5l-1.5-.2v-2.2l1.4-.4a7.8 7.8 0 0 1 0-1.8l-1.1-.9 1.1-1.9 1.4.5a7.8 7.8 0 0 1 1.5-.9l.2-1.5h2.2l.4 1.4a7.8 7.8 0 0 1 1.8 0l.9-1.1 1.9 1.1-.5 1.4a7.8 7.8 0 0 1 .9 1.5l1.5.2v2.2l-1.4.4a7.8 7.8 0 0 1 0 .9Z"/></svg>
+      </button>
+    </div>
+  </div>
+  <section class="card">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="eyebrow">WITAJ PONOWNIE</div>
+          <h1>Jul<span>c1a</span></h1>
+          <p class="subtitle">Graj świadomie. Analizuj błędy. Powtarzaj.<br>Nie musisz być najlepszy dzisiaj. Wystarczy, że będziesz lepszy niż wczoraj.</p>
+        </div>
+        <div class="rank-display" aria-live="polite">
+          <div class="rank-emblem" id="rankEmblem" aria-hidden="true"></div>
+          <div class="rank-copy"><span class="rank-caption">AKTUALNA RANGA</span><div class="rank-line"><strong class="rank-name" id="rankName">Iron 1</strong><span class="rank-tier" id="rankTier">0 RR</span></div><div class="peak-line"><span class="peak-label">PEAK</span><strong id="peakName">Iron 1</strong></div></div>
+        </div>
+      </div>
+      <div class="stats">
+        <div>
+          <div class="progress-label"><span>POSTĘP DNIA</span><strong id="count">0 / 9</strong></div>
+          <div class="track" role="progressbar" aria-label="Dzienny postęp" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="fill" id="fill"></div></div>
+          <div class="streak-summary"><span>SERIA <strong id="currentStreak">0 DNI</strong></span><span>REKORD <strong id="bestStreak">0 DNI</strong></span></div>
+        </div>
+        <div class="percent" id="percent">0%</div>
+      </div>
+    </header>
+    <nav class="app-tabs" aria-label="Główna nawigacja">
+      <button class="app-tab active" id="tab-home" type="button" data-tab="home" aria-selected="true">Główna</button>
+      <button class="app-tab" id="tab-rank" type="button" data-tab="rank" aria-selected="false">Aktualna ranga</button>
+      <button class="app-tab" id="tab-routine" type="button" data-tab="routine" aria-selected="false">Rutyna</button>
+      <button class="app-tab" id="tab-vod" type="button" data-tab="vod" aria-selected="false">VOD Review</button>
+    </nav>
+    <section class="content tab-page" id="page-home" aria-labelledby="tab-home">
+      <div class="dashboard-grid">
+        <section class="panel">
+          <div class="panel-heading"><h2>Wyniki meczów</h2><button class="button secondary reset-matches" id="resetMatches" type="button">RESET WYNIKÓW</button></div>
+          <div class="sync-status" id="profileSyncStatus"><span class="sync-dot"></span><span id="profileSyncMessage">Oczekiwanie na pierwsze odświeżenie GitHub Actions.</span><button id="refreshProfile" type="button" title="Pobierz najnowszy opublikowany plik" aria-label="Odśwież dane profilu">↻</button></div>
+          <div class="metrics">
+            <div class="metric"><span class="metric-label">Win ratio · 10 ostatnich</span><strong class="metric-value" id="winRate">0%</strong></div>
+            <div class="metric"><span class="metric-label">Winy</span><strong class="metric-value" id="winCount">0</strong></div>
+            <div class="metric"><span class="metric-label">Lose</span><strong class="metric-value" id="lossCount">0</strong></div>
+          </div>
+          <div id="manualMatchEntry">
+            <div class="match-form">
+              <label for="matchAgent">Agent<select id="matchAgent"></select></label>
+              <label for="matchKills">Kille<input id="matchKills" type="number" min="0" max="100" step="1" value="0" inputmode="numeric"></label>
+            </div>
+            <div class="match-actions"><button class="match-button" id="logWin" type="button">DODAJ WIN</button><button class="match-button loss" id="logLoss" type="button">DODAJ LOSE</button></div>
+          </div>
+          <ul class="match-history" id="matchHistory"></ul>
+        </section>
+        <section class="panel">
+          <div class="panel-heading"><h2>Seria treningów</h2><span>ostatnie 7 dni</span></div>
+          <div class="chart" id="trainingChart" role="img" aria-label="Ukończone zadania rutyny w ostatnich siedmiu dniach"></div>
+        </section>
+      </div>
+      <section class="panel home-routine-panel">
+        <div class="panel-heading"><h2>Rutyna na dziś</h2><span id="homeChecklistCount">0 / 9 ukończone</span></div>
+        <div class="items home-checklist" id="items">
+          <label class="item"><input type="checkbox"><span>Wykonałem rozgrzewkę na Range</span></label>
+          <label class="item"><input type="checkbox"><span>Przećwiczyłem OKIAIMX</span></label>
+          <label class="item"><input type="checkbox"><span>Zagrałem Deathmatch świadomie</span></label>
+          <label class="item"><input type="checkbox"><span>Nie grałem na autopilocie</span></label>
+          <label class="item"><input type="checkbox"><span>Komunikowałem się z drużyną</span></label>
+          <label class="item"><input type="checkbox"><span>Analizowałem swoje zgony</span></label>
+          <label class="item"><input type="checkbox"><span>Znalazłem przynajmniej jeden powtarzający się błąd</span></label>
+          <label class="item"><input type="checkbox"><span>Pracowałem nad konkretną słabością</span></label>
+          <label class="item"><input type="checkbox"><span>Zrobiłem przerwy i zadbałem o regenerację</span></label>
+        </div>
+      </section>
+      <section class="panel" style="margin-top:14px">
+        <div class="panel-heading"><h2>Agenci</h2><span>kille zapisane w meczach</span></div>
+        <div class="favorite-agent" id="favoriteAgent"><span class="favorite-kicker">NAJCZĘŚCIEJ GRANY AGENT</span><strong id="favoriteAgentName">Jeszcze brak meczów</strong><span id="favoriteAgentStats">Dodaj wynik, żeby zobaczyć swoje statystyki.</span></div>
+        <div class="agent-list" id="agentList"></div>
+        <form class="add-agent-form" id="agentForm"><label for="newAgent">Dodaj agenta<input id="newAgent" type="text" maxlength="24" placeholder="Nazwa agenta"></label><button class="button secondary" type="submit">DODAJ</button></form>
+      </section>
+      <section class="tracker-section" id="trackerSection" aria-labelledby="trackerHeading" hidden>
+        <h2 class="tracker-heading" id="trackerHeading">Profil Tracker.gg</h2>
+        <form class="tracker-lookup" id="trackerForm" novalidate>
+          <label class="tracker-field" for="riotId"><span>RIOT ID · PROFIL STAŁY</span><input id="riotId" type="text" value="Julc1a#uwu" readonly></label>
+          <button class="button" type="submit">ODŚWIEŻ PROFIL</button>
+        </form>
+        <p class="tracker-note">Profil Julc1a#uwu wczytuje się automatycznie. Musi być publiczny w Tracker.gg; widoczna ranga i ikona pochodzą z profilu. Ukryte MMR nie jest udostępniane.</p>
+        <p class="tracker-status" id="trackerStatus" role="status" aria-live="polite"></p>
+        <div class="tracker-results" id="trackerResults"><div><div class="tracker-profile-head"><span>PROFIL GRACZA</span><a id="openTracker" href="https://tracker.gg/valorant" target="_blank" rel="noopener noreferrer">OTWÓRZ NA TRACKER.GG ↗</a></div><iframe class="tracker-frame" id="trackerFrame" title="Publiczny profil Valorant Tracker.gg" loading="lazy" referrerpolicy="no-referrer"></iframe></div><aside class="tracker-insights" aria-labelledby="analysisHeading"><h3 id="analysisHeading">Wskazówki do treningu</h3><p>Wpisz statystyki widoczne na profilu. Analiza jest orientacyjna i opiera się wyłącznie na podanych liczbach.</p><div class="tracker-stats"><label class="tracker-field" for="statHs"><span>HS %</span><input id="statHs" type="number" min="0" max="100" step="0.1" placeholder="np. 22.5"></label><label class="tracker-field" for="statWin"><span>WIN RATE %</span><input id="statWin" type="number" min="0" max="100" step="0.1" placeholder="np. 51"></label><label class="tracker-field" for="statKd"><span>K/D</span><input id="statKd" type="number" min="0" max="10" step="0.01" placeholder="np. 0.95"></label><label class="tracker-field" for="statAcs"><span>ACS</span><input id="statAcs" type="number" min="0" max="1000" step="1" placeholder="np. 220"></label></div><div class="analysis-caption">PRIORYTETY NA NASTĘPNY TRENING</div><ul class="analysis-list" id="analysisList"><li class="analysis-empty">Uzupełnij HS%, win rate lub K/D, aby wygenerować wskazówki.</li></ul></aside></div>
+      </section>
+      <div class="footer"><span>JAKOŚĆ &gt; ILOŚĆ</span><span>NASTĘPNY MECZ. LEPSZA DECYZJA.</span></div>
+    </section>
+    <section class="content tab-page" id="page-rank" aria-labelledby="tab-rank" hidden>
+      <div class="section-head"><h2>Aktualna ranga</h2><span class="pill">DYWIZJA · RR · MIEJSCE</span></div>
+      <div class="rank-settings">
+        <form class="rank-form" id="rankForm">
+          <label class="select-field" for="rankSelect"><span class="field-label">RANGA</span><select id="rankSelect"><option value="iron">Iron</option><option value="bronze">Brąz</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="platinum">Platyna</option><option value="diamond">Diament</option><option value="ascendant">Ascendant</option><option value="immortal">Immortal</option><option value="radiant">Radiant</option></select></label>
+          <label class="select-field" id="tierField" for="tierSelect"><span class="field-label">DYWIZJA</span><select id="tierSelect"><option value="1">I</option><option value="2">II</option><option value="3">III</option></select></label>
+          <label class="select-field" for="regionSelect"><span class="field-label">REGION RANKINGU</span><select id="regionSelect"><option value="EU">Europa (EU)</option><option value="NA">Ameryka Północna (NA)</option><option value="BR">Brazylia (BR)</option><option value="LATAM/KR">LATAM / Korea</option><option value="APC">APAC (APC)</option></select></label>
+          <label class="select-field" for="rrInput"><span class="field-label">RANK RATING · RR</span><input class="rr-number" id="rrInput" type="number" min="0" max="99999" step="1" value="0" inputmode="numeric" aria-label="Aktualny Rank Rating"></label>
+          <div class="peak-settings"><h3>Peak ranga</h3><div class="peak-fields"><label class="select-field" for="peakRankSelect"><span class="field-label">RANGA PEAK</span><select id="peakRankSelect"><option value="iron">Iron</option><option value="bronze">Brąz</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="platinum">Platyna</option><option value="diamond">Diament</option><option value="ascendant">Ascendant</option><option value="immortal">Immortal</option><option value="radiant">Radiant</option></select></label><label class="select-field" id="peakTierField" for="peakTierSelect"><span class="field-label">DYWIZJA PEAK</span><select id="peakTierSelect"><option value="1">1</option><option value="2">2</option><option value="3">3</option></select></label></div></div>
+          <p class="rank-threshold-info" id="rankThresholdInfo"></p>
+          <div class="placement-setting" id="placementSetting"><label class="field-label" id="placementLabel" for="placementNumber">MIEJSCE RADIANT · #500 → #1</label><div class="range-row"><input id="placementNumber" type="range" min="1" max="500" value="500"><output class="range-value" id="placementValue">#500</output></div></div>
+          <button class="button" id="saveRank" type="button">ZAPISZ RANGĘ</button>
+        </form>
+        <div class="rank-preview"><div class="rank-emblem" id="rankPreviewEmblem" aria-hidden="true"></div><span class="rank-caption">TWOJA RANGA</span><strong class="rank-name" id="rankPreviewName">Iron</strong><span class="rank-tier" id="rankPreviewTier">DYWIZJA 1 · 0/100 RR</span></div>
+      </div>
+      <section class="panel threshold-panel"><div class="panel-heading"><h2>Progi RR Immortal i Radiant</h2><span>oficjalne progi regionalne</span></div><div class="table-scroll"><table class="threshold-table"><thead><tr><th>Region</th><th>Immortal 2</th><th>Immortal 3</th><th>Radiant</th></tr></thead><tbody id="thresholdRows"></tbody></table></div><a class="rank-source" href="https://support.riotgames.com/en-us/valorant/gameplay/rank-rating-rr-for-immortal-and-radiant-ranks" target="_blank" rel="noopener noreferrer">Źródło: Riot Games Support · Rank Rating for Immortal and Radiant ↗</a></section>
+    </section>
+    <section class="content tab-page" id="page-routine" aria-labelledby="tab-routine" hidden>
+      <div class="section-head"><h2>Rozgrzewka i analiza VOD</h2><span class="pill">ZAPISUJ RZECZYWISTY CZAS</span></div>
+      <section class="panel training-block"><div class="panel-heading"><h2>OKIAIMX</h2><span id="aimTotal">0 / 12 min</span></div><div class="warmup-list" id="aimWarmup"></div></section>
+      <section class="panel training-block"><div class="panel-heading"><h2>Strzelnica VALORANT</h2><span id="rangeTotal">0 / 30 min</span></div><div class="warmup-list" id="rangeWarmup"></div></section>
+      <div class="section-head routine-checklist-heading"><h2>Checklista po treningu</h2><span class="pill">9 KROKÓW</span></div>
+      <div class="routine-guide" id="routineGuide"></div>
+      <div class="bottom"><div class="notes"><label for="note">Notatka · co poprawić jutro?</label><textarea id="note" placeholder="Co zadziałało? Co jutro zrobić lepiej?"></textarea></div><div class="actions"><button class="button" id="save" type="button">ZAPISZ NOTATKĘ</button><button class="button secondary" id="reset" type="button">RESET DNIA</button></div></div>
+      <div class="footer"><span>JAKOŚĆ &gt; ILOŚĆ</span><span>MAŁY KROK, KAŻDEGO DNIA.</span></div>
+    </section>
+    <section class="content tab-page" id="page-vod" aria-labelledby="tab-vod" hidden>
+      <div class="section-head"><h2>VOD Review</h2><span class="pill">PRZEANALIZUJ · ZAPISZ · POPRAW</span></div>
+      <div class="vod-layout">
+        <section class="panel vod-panel">
+          <div class="panel-heading"><h2>Nowa analiza</h2><span>zapisz jedną konkretną lekcję</span></div>
+          <form id="vodForm" class="vod-form">
+            <label class="select-field" for="vodMap"><span class="field-label">MAPA</span><select id="vodMap" required><option value="">Wybierz mapę</option><option>Abyss</option><option>Ascent</option><option>Bind</option><option>Breeze</option><option>Corrode</option><option>Fracture</option><option>Haven</option><option>Icebox</option><option>Lotus</option><option>Pearl</option><option>Split</option><option>Sunset</option><option>Inna</option></select></label>
+            <label class="select-field" for="vodRound"><span class="field-label">RUNDA</span><input class="rr-number" id="vodRound" type="number" min="1" max="30" step="1" placeholder="np. 8" required></label>
+            <label class="select-field" for="vodMinutes"><span class="field-label">CZAS ANALIZY · MINUTY</span><input class="rr-number" id="vodMinutes" type="number" min="0" max="600" step="1" value="0"></label>
+            <label class="select-field vod-wide" for="vodCategory"><span class="field-label">RODZAJ BŁĘDU</span><select id="vodCategory" required><option value="">Wybierz kategorię</option></select></label>
+            <label class="select-field vod-wide" for="vodHappened"><span class="field-label">CO SIĘ STAŁO?</span><textarea id="vodHappened" placeholder="Opisz konkretną sytuację i swoją decyzję." required></textarea></label>
+            <label class="select-field vod-wide" for="vodNext"><span class="field-label">CO ZROBIĘ NASTĘPNYM RAZEM?</span><textarea id="vodNext" placeholder="Zapisz jedną rzecz, którą zmienisz." required></textarea></label>
+            <label class="select-field vod-wide" for="vodClip"><span class="field-label">LINK DO KLIPU · OPCJONALNIE</span><input class="rr-number vod-link" id="vodClip" type="url" placeholder="https://..."></label>
+            <button class="button vod-wide" type="submit">ZAPISZ ANALIZĘ</button>
+          </form>
+        </section>
+        <aside class="panel error-legend">
+          <div class="panel-heading"><h2>Legenda błędów</h2></div>
+          <div id="errorLegend"></div>
+        </aside>
+      </div>
+      <section class="panel vod-library"><div class="panel-heading"><h2>Biblioteka błędów</h2><span id="vodCount">0 analiz</span></div><div class="vod-library-list" id="vodLibrary"><p class="vod-empty">Zapisane analizy pojawią się tutaj.</p></div></section>
+    </section>
+  </section>
+</main>
+<dialog id="settings" aria-labelledby="settingsTitle">
+  <form id="settingsForm">
+    <div class="settings-head"><h2 id="settingsTitle">Ustawienia</h2><button class="icon-button" id="closeSettings" type="button" aria-label="Zamknij ustawienia" title="Zamknij"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div>
+    <div class="settings-body">
+      <section class="settings-section"><h3>Kolory interfejsu</h3><div class="color-grid">
+        <label class="color-field" for="accentColor">Kolor akcentu<input id="accentColor" type="color" value="#ff5945"></label>
+        <label class="color-field" for="backgroundColor">Kolor tła<input id="backgroundColor" type="color" value="#101114"></label>
+        <label class="color-field" for="progressMidColor">Kolor paska 2<input id="progressMidColor" type="color" value="#ffbd4a"></label>
+        <label class="color-field" for="progressEndColor">Kolor paska 3<input id="progressEndColor" type="color" value="#45e0bd"></label>
+      </div></section>
+    </div>
+    <div class="settings-footer"><button class="button secondary" id="resetColors" type="button">DOMYŚLNE KOLORY</button><button class="button secondary" id="cancelSettings" type="button">ANULUJ</button><button class="button" type="submit">ZAPISZ USTAWIENIA</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite">Zapisano.</div>
+<script>
+(() => {
+  const DAILY_KEY = "radiant-protocol-v1";
+  const SETTINGS_KEY = "radiant-protocol-settings-v1";
+  const GAME_KEY = "radiant-protocol-games-v1";
+  const ACTIVITY_KEY = "radiant-protocol-activity-v1";
+  const VOD_KEY = "radiant-protocol-vod-v1";
+  const TRACKER_KEY = "radiant-protocol-tracker-v1";
+  const TRACKER_ENABLED = false;
+  const STREAK_KEY = "radiant-protocol-streak-v1";
+  const defaults = {accent:"#b98aff",background:"#100b18",progressMid:"#ee72cb",progressEnd:"#78e5d3",rank:"iron",tier:1,rr:0,region:"EU",placement:500};
+  const defaultAgents=["Hush","Reyna","Jett","Clove","Chamber"];
+  const regionalThresholds={"LATAM/KR":{immortal2:90,immortal3:150,radiant:200},BR:{immortal2:100,immortal3:230,radiant:340},NA:{immortal2:90,immortal3:200,radiant:450},APC:{immortal2:80,immortal3:200,radiant:400},EU:{immortal2:100,immortal3:200,radiant:500}};
+  const regionLabels={"LATAM/KR":"LATAM / Korea",BR:"Brazylia",NA:"Ameryka Północna",APC:"APAC",EU:"Europa"};
+  const errorCategories=[
+    {name:"Celownik i aim",description:"Crosshair placement, pre-aim, kontrola serii, pierwszy strzał."},
+    {name:"Ruch",description:"Zatrzymanie przed strzałem, counter-strafe, skok lub niepotrzebny ruch."},
+    {name:"Peek i pozycja",description:"Zły kąt, timing, szerokość wychylenia albo brak osłony."},
+    {name:"Utility",description:"Brak umiejętności, zły timing, zasięg lub użycie bez planu."},
+    {name:"Komunikacja",description:"Brak informacji, spóźniony call albo brak koordynacji z drużyną."},
+    {name:"Decyzja",description:"Zły plan rundy, rotacja, trade, retake lub gra po przewadze."},
+    {name:"Ekonomia",description:"Zakup bez planu, niepotrzebny force albo brak wspólnego buy."},
+    {name:"Dyscyplina",description:"Autopilot, tilt, powtarzanie tego samego błędu lub brak przerwy."}
+  ];
+  const warmupDefinitions={
+    aim:{target:12,container:"aimWarmup",total:"aimTotal",items:[["Left Peek",2],["Right Peek",2],["Oni",3],["Expert",3],["Hell",2]]},
+    range:{target:30,container:"rangeWarmup",total:"rangeTotal",items:[["Rozgrzewka na botach",5],["50 botów · Vandal · headshoty",5],["50 botów · Sheriff",5],["Boty na trudnym poziomie",5],["Deathmatch · Sheriff",5],["Deathmatch · Vandal",5]]}
+  };
+  const routineDetails=[
+    "Podnieś temperaturę i przygotuj celownik przed kolejką.",
+    "Powtarzaj krótkie serie i kontroluj ruch myszy.",
+    "Skup się na pierwszym strzale, kątach i decyzjach.",
+    "Przed każdą akcją nazwij cel i sprawdź minimapę.",
+    "Podawaj krótkie info: pozycja, liczba przeciwników, zamiar.",
+    "Po śmierci znajdź jedną decyzję, którą możesz zmienić.",
+    "Zapisz błąd, który powtórzył się więcej niż raz.",
+    "Wybierz jedną rzecz do ćwiczenia w kolejnych rundach.",
+    "Rób przerwy między grami i kończ, gdy spada koncentracja."
+  ];
+  const iconBase="https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04";
+  const ranks = {
+    iron:{label:"Iron",color:"#a8a7ae",tiers:[3,4,5],path:"M50 18 68 36 50 54 32 36z"},
+    bronze:{label:"Brąz",color:"#d68b61",tiers:[6,7,8],path:"M50 16 70 29 64 54 50 64 36 54 30 29z"},
+    silver:{label:"Silver",color:"#d8e0e6",tiers:[9,10,11],path:"M50 16 67 26 67 46 50 58 33 46 33 26z"},
+    gold:{label:"Gold",color:"#ffc74f",tiers:[12,13,14],path:"M50 14 69 25 69 45 50 56 31 45 31 25z"},
+    platinum:{label:"Platyna",color:"#65d8d1",tiers:[15,16,17],path:"M50 14 70 25 64 49 50 60 36 49 30 25z"},
+    diamond:{label:"Diament",color:"#81aaff",tiers:[18,19,20],path:"M50 12 70 32 50 57 30 32z"},
+    ascendant:{label:"Ascendant",color:"#72e27b",tiers:[21,22,23],path:"M50 12 69 23 69 43 50 57 31 43 31 23z"},
+    immortal:{label:"Immortal",color:"#ed716e",tiers:[24,25,26],path:"M50 10 69 21 66 44 50 58 34 44 31 21z"},
+    radiant:{label:"Radiant",color:"#ffcb64",tiers:[27],path:"M50 9 57 28 77 25 63 40 77 54 57 51 50 71 43 51 23 54 37 40 23 25 43 28z"}
+  };
+  const root=document.documentElement;
+  const boxes=[...document.querySelectorAll('#items input[type="checkbox"]')];
+  const note=document.getElementById("note");
+  const dialog=document.getElementById("settings");
+  const form=document.getElementById("settingsForm");
+  const rankForm=document.getElementById("rankForm");
+  const rankSelect=document.getElementById("rankSelect");
+  const tierSelect=document.getElementById("tierSelect");
+  const peakRankSelect=document.getElementById("peakRankSelect");
+  const peakTierSelect=document.getElementById("peakTierSelect");
+  const rrInput=document.getElementById("rrInput");
+  const regionSelect=document.getElementById("regionSelect");
+  const placementNumber=document.getElementById("placementNumber");
+  const routineGuide=document.getElementById("routineGuide");
+  const vodMinutes=document.getElementById("vodMinutes");
+  const vodForm=document.getElementById("vodForm");
+  let vodAnalyses=loadVodAnalyses();
+  const gameState=loadGameState();
+  let remoteProfile=null;
+  document.getElementById("trackerSection").hidden=!TRACKER_ENABLED;
+  const trackerForm=document.getElementById("trackerForm");
+  const trackerInput=document.getElementById("riotId");
+  const trackerResults=document.getElementById("trackerResults");
+  const trackerFrame=document.getElementById("trackerFrame");
+  const trackerStatus=document.getElementById("trackerStatus");
+  const statFields={hs:"statHs",win:"statWin",kd:"statKd",acs:"statAcs"};
+  const colorInputs={accent:"accentColor",background:"backgroundColor",progressMid:"progressMidColor",progressEnd:"progressEndColor"};
+  renderWarmupControls();
+  const validColor=value=>/^#[0-9a-f]{6}$/i.test(value||"");
+  const dateNow=new Date();
+  document.getElementById("date").textContent=dateNow.toLocaleDateString("pl-PL",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).toUpperCase();
+  let toastTimer;
+  function notify(message){const toast=document.getElementById("toast");toast.textContent=message;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),1800)}
+  function readSettings(){
+    try{
+      const saved=JSON.parse(localStorage.getItem(SETTINGS_KEY)||"null")||{};let migrated=false;
+      const previousColors={accent:["#ff1900","#ff5945","#ff0000"],background:["#101114"],progressMid:["#ff00f7","#ffbd4a"],progressEnd:["#ffa200","#45e0bd"]};
+      Object.entries(previousColors).forEach(([key,values])=>{if(values.includes(String(saved[key]||"").toLowerCase())){saved[key]=defaults[key];migrated=true}});
+      if(migrated)localStorage.setItem(SETTINGS_KEY,JSON.stringify(saved));
+      return saved;
+    }catch{return {}}
+  }
+  function normalizedSettings(value){
+    const rank=Object.hasOwn(ranks,value.rank)?value.rank:defaults.rank;
+    const tier=[1,2,3].includes(Number(value.tier))?Number(value.tier):1;
+    const immortalThree=rank==="immortal"&&tier===3;
+    const minPlacement=immortalThree?501:1;
+    const maxPlacement=rank==="radiant"?500:immortalThree?5000:1;
+    const oldRadiantPlacement=rank==="radiant"?value.radiant:undefined;
+    const defaultPlacement=rank==="radiant"?500:immortalThree?5000:1;
+    const placementValue=Number(value.placement??oldRadiantPlacement??defaultPlacement);
+    const region=Object.hasOwn(regionalThresholds,value.region)?value.region:"EU";
+    const peakRank=Object.hasOwn(ranks,value.peakRank)?value.peakRank:rank;
+    const peakTier=[1,2,3].includes(Number(value.peakTier))?Number(value.peakTier):peakRank===rank?tier:1;
+    return {accent:validColor(value.accent)?value.accent:defaults.accent,background:validColor(value.background)?value.background:defaults.background,progressMid:validColor(value.progressMid)?value.progressMid:defaults.progressMid,progressEnd:validColor(value.progressEnd)?value.progressEnd:defaults.progressEnd,rank,tier,rr:Math.min(99999,Math.max(0,Math.floor(Number(value.rr)||0))),region,placement:Math.min(maxPlacement,Math.max(minPlacement,placementValue)),placementKnown:value.placementKnown!==false,peakRank,peakTier};
+  }
+  function applySettings(value){
+    const settings=normalizedSettings(value);
+    root.style.setProperty("--accent",settings.accent);root.style.setProperty("--bg",settings.background);
+    root.style.setProperty("--progress-mid",settings.progressMid);root.style.setProperty("--progress-end",settings.progressEnd);
+    const rank=ranks[settings.rank];root.style.setProperty("--rank",rank.color);root.style.setProperty("--rank-glow",`${rank.color}55`);
+    document.getElementById("rankName").textContent=rank.label;
+    const immortalThree=settings.rank==="immortal"&&settings.tier===3;
+    const rankTitle=settings.rank==="radiant"?rank.label:`${rank.label} ${settings.tier}`;
+    const rankDetails=(settings.rank==="radiant"||immortalThree)&&settings.placementKnown?`#${settings.placement} · ${settings.rr} RR`:`${settings.rr} RR`;
+    const peak=ranks[settings.peakRank];
+    const peakTitle=settings.peakRank==="radiant"?peak.label:`${peak.label} ${settings.peakTier}`;
+    document.getElementById("rankName").textContent=rankTitle;
+    document.getElementById("rankTier").textContent=rankDetails;
+    document.getElementById("peakName").textContent=peakTitle;
+    document.getElementById("rankPreviewName").textContent=rankTitle;
+    document.getElementById("rankPreviewTier").textContent=rankDetails;
+    const emblem=document.getElementById("rankEmblem");
+    const iconTier=rank.tiers[settings.rank==="radiant"?0:settings.tier-1];
+    [emblem,document.getElementById("rankPreviewEmblem")].forEach(target=>{
+      const image=new Image();image.alt="";image.decoding="async";image.src=`${iconBase}/${iconTier}/largeicon.png`;
+      image.onerror=()=>{target.innerHTML=`<svg viewBox="0 0 100 82" aria-hidden="true"><path d="M50 3 88 23v36L50 79 12 59V23z" fill="none" stroke="currentColor" stroke-width="2" opacity=".55"/><path d="${rank.path}" fill="currentColor"/></svg>`};
+      target.replaceChildren(image);
+    });
+    rrInput.value=String(settings.rr);regionSelect.value=settings.region;
+    document.getElementById("tierField").hidden=settings.rank==="radiant";
+    updateRankThresholdInfo(settings);
+    return settings;
+  }
+  function renderWarmupControls(){
+    Object.values(warmupDefinitions).forEach(group=>{
+      const container=document.getElementById(group.container);container.replaceChildren();
+      group.items.forEach(([label,target],index)=>{
+        const row=document.createElement("label");row.className="warmup-row";
+        const name=document.createElement("span");name.className="warmup-name";name.textContent=label;
+        const minimum=document.createElement("span");minimum.className="warmup-target";minimum.textContent=`cel ${target} min`;
+        const input=document.createElement("input");input.className="warmup-time";input.type="number";input.min="0";input.max="600";input.step="1";input.value="0";input.inputMode="numeric";input.setAttribute("aria-label",`${label}, wykonane minuty`);input.dataset.warmupKey=`${group.container}-${index}`;
+        row.append(name,minimum,input);container.append(row);
+      });
+    });
+  }
+  function warmupTotal(group){return group.items.reduce((total,_,index)=>total+(Number(document.querySelector(`[data-warmup-key="${group.container}-${index}"]`)?.value)||0),0)}
+  function updateWarmupProgress(){
+    Object.values(warmupDefinitions).forEach(group=>{
+      let total=0;
+      group.items.forEach(([,target],index)=>{
+        const input=document.querySelector(`[data-warmup-key="${group.container}-${index}"]`);const value=Math.max(0,Number(input?.value)||0);total+=value;input?.closest(".warmup-row").classList.toggle("complete",value>=target);
+      });
+      document.getElementById(group.total).textContent=`${total} / ${group.target} min`;
+    });
+  }
+  function syncWarmupChecklist(){
+    if(!boxes.length)return;
+    boxes[0].checked=warmupTotal(warmupDefinitions.range)>=warmupDefinitions.range.target;
+    boxes[1].checked=warmupTotal(warmupDefinitions.aim)>=warmupDefinitions.aim.target;
+  }
+  function updateRankThresholdInfo(settings=normalizedSettings({...readSettings(),rank:rankSelect.value,tier:Number(tierSelect.value),rr:Number(rrInput.value),region:regionSelect.value,placement:Number(placementNumber.value)})){
+    const thresholds=regionalThresholds[settings.region];let info;
+    if(settings.rank==="radiant")info=`Radiant wymaga co najmniej ${thresholds.radiant} RR w regionie ${settings.region} oraz miejsca w top 500. Przy spadku poniżej progu RR lub poza top 500 można spaść do Immortal 3.`;
+    else if(settings.rank==="immortal"&&settings.tier===3)info=`Próg Radianta w regionie ${settings.region}: ${thresholds.radiant} RR i top 500. Samo osiągnięcie progu RR nie wystarczy.`;
+    else if(settings.rank==="immortal"&&settings.tier===2)info=`Immortal 3 od ${thresholds.immortal3} RR w regionie ${settings.region}.`;
+    else if(settings.rank==="immortal")info=`Immortal 2 od ${thresholds.immortal2} RR w regionie ${settings.region}. Immortal 1 zaczyna się po awansie z Ascendant 3.`;
+    else info="Iron–Ascendant: 100 RR na awans do kolejnej dywizji. Po awansie zaczynasz z co najmniej 10 RR.";
+    document.getElementById("rankThresholdInfo").textContent=info;
+    renderThresholdTable(settings.region);
+  }
+  function renderThresholdTable(currentRegion){
+    const body=document.getElementById("thresholdRows");if(!body)return;body.replaceChildren();
+    Object.entries(regionalThresholds).forEach(([region,thresholds])=>{
+      const row=document.createElement("tr");if(region===currentRegion)row.className="current-region";
+      [regionLabels[region],`${thresholds.immortal2} RR`,`${thresholds.immortal3} RR`,`${thresholds.radiant} RR + top 500`].forEach(value=>{const cell=document.createElement("td");cell.textContent=value;row.append(cell)});body.append(row);
+    });
+  }
+  function update(){
+    syncWarmupChecklist();
+    const completed=boxes.filter(box=>box.checked).length;
+    const percent=Math.round(completed/boxes.length*100);
+    document.getElementById("count").textContent=`${completed} / ${boxes.length}`;
+    document.getElementById("homeChecklistCount").textContent=`${completed} / ${boxes.length} ukończone`;
+    document.getElementById("percent").textContent=`${percent}%`;
+    document.getElementById("fill").style.width=`${percent}%`;
+    document.querySelector(".track").setAttribute("aria-valuenow",String(percent));
+    boxes.forEach(box=>box.closest(".item").classList.toggle("done",box.checked));
+    updateStreak(completed);
+    recordTrainingActivity(completed);
+    syncRoutineGuide();
+    renderTrainingChart();
+    updateWarmupProgress();
+  }
+  function dateKey(date){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`}
+  function previousDay(key){const [year,month,day]=key.split("-").map(Number);const date=new Date(year,month-1,day);date.setDate(date.getDate()-1);return dateKey(date)}
+  function updateStreak(completed){
+    let days=[];
+    try{const saved=JSON.parse(localStorage.getItem(STREAK_KEY)||"[]");if(Array.isArray(saved))days=saved.filter(value=>/^\d{4}-\d{2}-\d{2}$/.test(value))}catch{}
+    const completedDays=new Set(days);
+    const currentDay=today();
+    if(completed===boxes.length)completedDays.add(currentDay);else completedDays.delete(currentDay);
+    const orderedDays=[...completedDays].sort();
+    localStorage.setItem(STREAK_KEY,JSON.stringify(orderedDays));
+    let cursor=completedDays.has(currentDay)?currentDay:previousDay(currentDay);
+    let active=0;
+    while(completedDays.has(cursor)){active++;cursor=previousDay(cursor)}
+    let best=0,run=0,lastDay="";
+    orderedDays.forEach(day=>{run=lastDay&&previousDay(day)===lastDay?run+1:1;best=Math.max(best,run);lastDay=day});
+    document.getElementById("currentStreak").textContent=`${active} ${active===1?"DZIEŃ":"DNI"}`;
+    document.getElementById("bestStreak").textContent=`${best} ${best===1?"DZIEŃ":"DNI"}`;
+  }
+  function getWarmupValues(){return Object.fromEntries([...document.querySelectorAll(".warmup-time")].map(input=>[input.dataset.warmupKey,Math.min(600,Math.max(0,Math.floor(Number(input.value)||0)))]))}
+  function persistDaily(){localStorage.setItem(DAILY_KEY,JSON.stringify({date:today(),checks:boxes.map(box=>box.checked),note:note.value,warmup:getWarmupValues(),vodMinutes:vodMinutes.value}));update()}
+  function today(){const date=new Date();return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`}
+  function loadDaily(){
+    try{
+      const data=JSON.parse(localStorage.getItem(DAILY_KEY)||"null");
+      if(data&&data.date===today()){
+        boxes.forEach((box,index)=>box.checked=!!data.checks?.[index]);note.value=data.note||"";vodMinutes.value=data.vodMinutes||"0";
+        Object.values(warmupDefinitions).forEach(group=>group.items.forEach(([,target],index)=>{
+          const key=`${group.container}-${index}`;const hadWarmup=data.warmup&&Object.hasOwn(data.warmup,key);
+          const migrateCheck=group===warmupDefinitions.range?data.checks?.[0]:data.checks?.[1];
+          document.querySelector(`[data-warmup-key="${key}"]`).value=hadWarmup?data.warmup[key]:migrateCheck?target:0;
+        }));
+      }else{boxes.forEach(box=>box.checked=false);note.value="";vodMinutes.value="0";document.querySelectorAll(".warmup-time").forEach(input=>input.value="0");persistDaily()}
+    }
+    catch{boxes.forEach(box=>box.checked=false);note.value=""}
+    update();
+  }
+  function loadGameState(){
+    const defaults={wins:0,losses:0,agents:[...defaultAgents],selectedAgent:defaultAgents[0],agentKills:{},agentGames:{},matches:[]};
+    try{
+      const saved=JSON.parse(localStorage.getItem(GAME_KEY)||"null");
+      if(!saved||typeof saved!=="object")return defaults;
+      const agents=Array.isArray(saved.agents)?saved.agents.filter(agent=>typeof agent==="string"&&agent.trim()).map(agent=>agent.trim()):defaults.agents;
+      defaultAgents.forEach(agent=>{if(!agents.some(existing=>existing.toLowerCase()===agent.toLowerCase()))agents.push(agent)});
+      const matches=Array.isArray(saved.matches)?saved.matches.slice(-20):[];
+      const agentGames=saved.agentGames&&typeof saved.agentGames==="object"?saved.agentGames:{};
+      if(!saved.agentGames)matches.forEach(match=>{const key=String(match.agent||"").toLowerCase();if(key)agentGames[key]=(Number(agentGames[key])||0)+1});
+      return {wins:Math.max(0,Number(saved.wins)||0),losses:Math.max(0,Number(saved.losses)||0),agents,selectedAgent:agents.includes(saved.selectedAgent)?saved.selectedAgent:agents[0],agentKills:saved.agentKills&&typeof saved.agentKills==="object"?saved.agentKills:{},agentGames,matches};
+    }catch{return defaults}
+  }
+  function saveGameState(){localStorage.setItem(GAME_KEY,JSON.stringify(gameState))}
+  function renderGameData(){
+    const synced=remoteProfile?.available===true;
+    const matches=synced?remoteProfile.matches:gameState.matches;
+    const wins=synced?remoteProfile.summary.wins:gameState.wins;
+    const losses=synced?remoteProfile.summary.losses:gameState.losses;
+    const total=wins+losses;
+    const ratio=total?Math.round(wins/total*100):0;
+    document.getElementById("winRate").textContent=`${ratio}%`;
+    document.getElementById("winCount").textContent=String(wins);
+    document.getElementById("lossCount").textContent=String(losses);
+    document.getElementById("manualMatchEntry").hidden=synced;
+    document.getElementById("resetMatches").hidden=synced;
+    const remoteAgents=synced&&Array.isArray(remoteProfile.summary.byAgent)?remoteProfile.summary.byAgent:[];
+    const mergedAgents=[...gameState.agents];
+    remoteAgents.forEach(agent=>{if(agent.name&&!mergedAgents.some(name=>name.toLowerCase()===agent.name.toLowerCase()))mergedAgents.push(agent.name)});
+    const remoteAgentStats=new Map(remoteAgents.map(agent=>[agent.name.toLowerCase(),agent]));
+    const select=document.getElementById("matchAgent");
+    const selected=gameState.selectedAgent;
+    select.replaceChildren(...mergedAgents.map(agent=>{const option=document.createElement("option");option.value=agent;option.textContent=agent;return option}));
+    if(mergedAgents.includes(selected))select.value=selected;
+    const list=document.getElementById("agentList");list.replaceChildren();
+    mergedAgents.forEach(agent=>{
+      const button=document.createElement("button");button.type="button";button.className=`agent-card${agent===gameState.selectedAgent?" selected":""}`;
+      const name=document.createElement("span");name.className="agent-name";name.textContent=agent;
+      const online=remoteAgentStats.get(agent.toLowerCase());
+      const killCount=synced?(Number(online?.kills)||0):(Number(gameState.agentKills[agent.toLowerCase()])||0);
+      const games=synced?(Number(online?.games)||0):(Number(gameState.agentGames[agent.toLowerCase()])||0);
+      const kills=document.createElement("span");kills.className="agent-kills";kills.textContent=`${killCount} killi · ${games} gier`;
+      button.append(name,kills);button.addEventListener("click",()=>{gameState.selectedAgent=agent;saveGameState();renderGameData()});list.append(button);
+    });
+    const favorite=mergedAgents.reduce((best,agent)=>{
+      const count=synced?(Number(remoteAgentStats.get(agent.toLowerCase())?.games)||0):(Number(gameState.agentGames[agent.toLowerCase()])||0);
+      const bestCount=synced?(Number(remoteAgentStats.get(best.toLowerCase())?.games)||0):(Number(gameState.agentGames[best.toLowerCase()])||0);
+      return count>bestCount?agent:best;
+    },"");
+    const favoriteStats=remoteAgentStats.get(favorite.toLowerCase());
+    const favoriteCount=synced?(Number(favoriteStats?.games)||0):(Number(gameState.agentGames[favorite.toLowerCase()])||0);
+    const favoriteKills=synced?(Number(favoriteStats?.kills)||0):(Number(gameState.agentKills[favorite.toLowerCase()])||0);
+    document.getElementById("favoriteAgentName").textContent=favoriteCount?favorite:"Jeszcze brak meczów";
+    document.getElementById("favoriteAgentStats").textContent=favoriteCount?`${favoriteCount} ${favoriteCount===1?"mecz":"mecze"} · ${favoriteKills} killi`:"Dodaj wynik, żeby zobaczyć swoje statystyki.";
+    const history=document.getElementById("matchHistory");history.replaceChildren();
+    (synced?matches.slice(0,4):matches.slice(-4).reverse()).forEach(match=>{
+      const result=match.result||match.outcome;
+      const item=document.createElement("li");const summary=document.createElement("span");summary.textContent=`${match.agent} · ${match.kills} killi${match.map?` · ${match.map}`:""}`;
+      const outcome=document.createElement("strong");outcome.className=result==="win"?"match-result-win":result==="loss"?"match-result-loss":"";outcome.textContent=result==="win"?"WIN":result==="loss"?"LOSE":"—";
+      item.append(summary,outcome);history.append(item);
+    });
+  }
+  function recordMatch(outcome){
+    const kills=Math.min(100,Math.max(0,Math.floor(Number(document.getElementById("matchKills").value)||0)));
+    const agent=document.getElementById("matchAgent").value;
+    if(!agent)return;
+    if(outcome==="win")gameState.wins++;else gameState.losses++;
+    const key=agent.toLowerCase();gameState.agentKills[key]=(Number(gameState.agentKills[key])||0)+kills;
+    gameState.agentGames[key]=(Number(gameState.agentGames[key])||0)+1;
+    gameState.selectedAgent=agent;gameState.matches.push({outcome,agent,kills,date:today()});gameState.matches=gameState.matches.slice(-20);
+    saveGameState();renderGameData();document.getElementById("matchKills").value="0";
+  }
+  function addAgent(name){
+    const agent=name.trim();if(!agent)return false;
+    if(gameState.agents.some(existing=>existing.toLowerCase()===agent.toLowerCase()))return false;
+    gameState.agents.push(agent);gameState.selectedAgent=agent;saveGameState();renderGameData();return true;
+  }
+  function resetMatchResults(){
+    if(!confirm("Usunąć bilans W/L, historię meczów i kille agentów? Lista agentów pozostanie."))return;
+    gameState.wins=0;gameState.losses=0;gameState.agentKills={};gameState.agentGames={};gameState.matches=[];saveGameState();renderGameData();notify("Wyniki meczów wyczyszczone.");
+  }
+  function renderTrainingChart(){
+    const chart=document.getElementById("trainingChart");if(!chart)return;
+    let activity={};try{activity=JSON.parse(localStorage.getItem(ACTIVITY_KEY)||"{}")||{}}catch{}
+    chart.replaceChildren();
+    for(let offset=6;offset>=0;offset--){
+      const date=new Date();date.setHours(12,0,0,0);date.setDate(date.getDate()-offset);
+      const key=dateKey(date);const value=Math.min(boxes.length,Math.max(0,Number(activity[key])||0));
+      const column=document.createElement("div");column.className="chart-column";column.setAttribute("aria-label",`${date.toLocaleDateString("pl-PL",{weekday:"long"})}: ${value} z ${boxes.length} zadań`);
+      const count=document.createElement("span");count.className="chart-value";count.textContent=String(value);
+      const wrap=document.createElement("div");wrap.className="chart-bar-wrap";
+      const bar=document.createElement("div");bar.className="chart-bar";bar.style.height=`${Math.max(value?7:2,value/boxes.length*100)}%`;wrap.append(bar);
+      const label=document.createElement("span");label.className="chart-day";label.textContent=date.toLocaleDateString("pl-PL",{weekday:"short"}).replace(".","");
+      column.append(count,wrap,label);chart.append(column);
+    }
+  }
+  function recordTrainingActivity(completed){
+    let activity={};try{activity=JSON.parse(localStorage.getItem(ACTIVITY_KEY)||"{}")||{}}catch{}
+    activity[today()]=completed;localStorage.setItem(ACTIVITY_KEY,JSON.stringify(activity));
+  }
+  function renderRoutineGuide(){
+    routineGuide.replaceChildren();
+    boxes.forEach((box,index)=>{
+      const step=document.createElement("label");step.className="routine-step";
+      const number=document.createElement("span");number.className="routine-number";number.textContent=String(index+1).padStart(2,"0");
+      const text=document.createElement("span");const title=document.createElement("span");title.className="routine-title";title.textContent=box.nextElementSibling.textContent;
+      const detail=document.createElement("span");detail.className="routine-detail";detail.textContent=routineDetails[index];text.append(title,detail);
+      const check=document.createElement("input");check.type="checkbox";check.dataset.routineIndex=String(index);check.setAttribute("aria-label",`Oznacz jako wykonane: ${title.textContent}`);
+      step.append(number,text,check);routineGuide.append(step);
+    });
+    routineGuide.addEventListener("change",event=>{
+      if(!event.target.matches("[data-routine-index]"))return;
+      boxes[Number(event.target.dataset.routineIndex)].checked=event.target.checked;persistDaily();
+    });
+    syncRoutineGuide();
+  }
+  function syncRoutineGuide(){
+    routineGuide.querySelectorAll("[data-routine-index]").forEach(check=>{
+      const done=boxes[Number(check.dataset.routineIndex)].checked;check.checked=done;check.closest(".routine-step").classList.toggle("done",done);
+    });
+  }
+  function setActiveTab(tab){
+    document.querySelectorAll(".app-tab").forEach(button=>{const active=button.dataset.tab===tab;button.classList.toggle("active",active);button.setAttribute("aria-selected",String(active))});
+    document.querySelectorAll(".tab-page").forEach(page=>page.hidden=page.id!==`page-${tab}`);
+  }
+  function updatePlacementControls(){
+    const rank=rankSelect.value;
+    const immortalThree=rank==="immortal"&&Number(tierSelect.value)===3;
+    const radiant=rank==="radiant";
+    const visible=radiant||immortalThree;
+    const setting=document.getElementById("placementSetting");
+    setting.classList.toggle("visible",visible);
+    if(!visible)return;
+    const input=placementNumber;const min=radiant?1:501;const max=radiant?500:5000;
+    input.min=String(min);input.max=String(max);
+    const current=Number(input.value);if(current<min||current>max)input.value=String(max);
+    document.getElementById("placementLabel").textContent=radiant?"MIEJSCE RADIANT · #500 → #1":"MIEJSCE IMMORTAL 3 · #5000 → #501";
+    document.getElementById("placementValue").textContent=`#${input.value}`;
+  }
+  function loadRankSettings(){
+    const settings=normalizedSettings({...defaults,...readSettings()});
+    rankSelect.value=settings.rank;tierSelect.value=String(settings.tier);rrInput.value=String(settings.rr);regionSelect.value=settings.region;placementNumber.value=String(settings.placement);
+    peakRankSelect.value=settings.peakRank;peakTierSelect.value=String(settings.peakTier);document.getElementById("peakTierField").hidden=settings.peakRank==="radiant";
+    updatePlacementControls();applySettings(settings);
+  }
+  function updateRankSettings(){
+    updatePlacementControls();
+    document.getElementById("peakTierField").hidden=peakRankSelect.value==="radiant";
+    const settings=normalizedSettings({...readSettings(),rank:rankSelect.value,tier:Number(tierSelect.value),rr:Number(rrInput.value),region:regionSelect.value,placement:Number(placementNumber.value),peakRank:peakRankSelect.value,peakTier:Number(peakTierSelect.value)});
+    rrInput.value=String(settings.rr);
+    const applied=applySettings(settings);localStorage.setItem(SETTINGS_KEY,JSON.stringify(applied));
+  }
+  function openSettings(){
+    const settings=normalizedSettings(readSettings());
+    Object.entries(colorInputs).forEach(([key,id])=>document.getElementById(id).value=settings[key]);
+    applySettings(settings);dialog.showModal();
+  }
+  function resetColors(){
+    const settings={...readSettings(),accent:defaults.accent,background:defaults.background,progressMid:defaults.progressMid,progressEnd:defaults.progressEnd};
+    const applied=applySettings(settings);localStorage.setItem(SETTINGS_KEY,JSON.stringify(applied));
+    Object.entries(colorInputs).forEach(([key,id])=>document.getElementById(id).value=defaults[key]);
+    notify("Przywrócono domyślne kolory.");
+  }
+  function setProfileSyncMessage(message,state="idle"){
+    const status=document.getElementById("profileSyncStatus");
+    status.dataset.state=state;document.getElementById("profileSyncMessage").textContent=message;
+  }
+  function applyRemoteRank(profile){
+    const current=profile.rank?.current;
+    if(!current?.key||!Object.hasOwn(ranks,current.key))return;
+    const peak=profile.rank?.peak;
+    const rankData={...readSettings(),rank:current.key,tier:current.division||1,rr:Number(current.rr)||0,region:String(profile.profile?.region||"EU").toUpperCase()};
+    if(current.leaderboardPlacement){rankData.placement=Number(current.leaderboardPlacement);rankData.placementKnown=true}
+    else if(current.key==="radiant"||(current.key==="immortal"&&Number(current.division)===3))rankData.placementKnown=false;
+    if(peak?.key&&Object.hasOwn(ranks,peak.key)){rankData.peakRank=peak.key;rankData.peakTier=peak.division||1}
+    const settings=normalizedSettings(rankData);
+    rankSelect.value=settings.rank;tierSelect.value=String(settings.tier);rrInput.value=String(settings.rr);regionSelect.value=settings.region;
+    peakRankSelect.value=settings.peakRank;peakTierSelect.value=String(settings.peakTier);
+    placementNumber.value=String(settings.placement);
+    document.getElementById("peakTierField").hidden=settings.peakRank==="radiant";
+    updatePlacementControls();applySettings(settings);localStorage.setItem(SETTINGS_KEY,JSON.stringify(settings));
+  }
+  async function loadRemoteProfile(){
+    try{
+      const url=new URL("data/valorant-stats.json",document.baseURI);url.searchParams.set("_",String(Date.now()));
+      const response=await fetch(url,{cache:"no-store"});
+      if(!response.ok)throw new Error(`profile JSON HTTP ${response.status}`);
+      const profile=await response.json();
+      if(profile.available!==true){
+        remoteProfile=null;renderGameData();
+        setProfileSyncMessage(profile.message||"Czekam na pierwsze pobranie z GitHub Actions.");return;
+      }
+      remoteProfile=profile;applyRemoteRank(profile);renderGameData();
+      const updated=new Date(profile.updatedAt);
+      const time=Number.isNaN(updated.getTime())?"":updated.toLocaleString("pl-PL",{dateStyle:"short",timeStyle:"short"});
+      setProfileSyncMessage(`HenrikDev · ${profile.profile?.riotId||"Julc1a#uwu"} · aktualizacja ${time}`,"success");
+    }catch{
+      remoteProfile=null;renderGameData();
+      setProfileSyncMessage("Synchronizacja ruszy po dodaniu HENRIKDEV_API_KEY i pierwszym uruchomieniu GitHub Actions.","idle");
+    }
+  }
+  function loadVodAnalyses(){
+    try{const saved=JSON.parse(localStorage.getItem(VOD_KEY)||"[]");return Array.isArray(saved)?saved.filter(entry=>entry&&typeof entry.id==="string"):[]}catch{return []}
+  }
+  function renderErrorLegend(){
+    const legend=document.getElementById("errorLegend");legend.replaceChildren();
+    const categorySelect=document.getElementById("vodCategory");
+    errorCategories.forEach(category=>{const option=document.createElement("option");option.value=category.name;option.textContent=category.name;categorySelect.append(option)});
+    errorCategories.forEach(category=>{
+      const item=document.createElement("div");item.className="legend-item";
+      const marker=document.createElement("span");marker.className="legend-mark";
+      const text=document.createElement("span");const title=document.createElement("strong");title.textContent=category.name;const description=document.createElement("span");description.textContent=category.description;text.append(title,description);
+      item.append(marker,text);legend.append(item);
+    });
+  }
+  function renderVodLibrary(){
+    const library=document.getElementById("vodLibrary");library.replaceChildren();
+    const total=vodAnalyses.length;document.getElementById("vodCount").textContent=`${total} ${total===1?"analiza":"analizy"}`;
+    if(!total){const empty=document.createElement("p");empty.className="vod-empty";empty.textContent="Zapisane analizy pojawią się tutaj.";library.append(empty);return}
+    vodAnalyses.forEach(analysis=>{
+      const entry=document.createElement("article");entry.className="vod-entry";
+      const main=document.createElement("div");main.className="vod-entry-main";
+      const meta=document.createElement("div");meta.className="vod-entry-meta";
+      const date=new Date(analysis.createdAt);const dateLabel=Number.isNaN(date.getTime())?"Zapisana analiza":date.toLocaleDateString("pl-PL",{day:"numeric",month:"short",year:"numeric"});
+      meta.textContent=`${dateLabel} · ${analysis.map} · RUNDA ${analysis.round} · ${analysis.category} · ${analysis.minutes} MIN`;
+      const happenedTitle=document.createElement("h3");happenedTitle.textContent="Co się stało?";
+      const happened=document.createElement("p");happened.textContent=analysis.happened;
+      const nextTitle=document.createElement("h3");nextTitle.textContent="Co zrobię następnym razem?";
+      const next=document.createElement("p");next.className="vod-next";next.textContent=analysis.next;
+      main.append(meta,happenedTitle,happened,nextTitle,next);
+      if(typeof analysis.clip==="string"&&/^https?:\/\//i.test(analysis.clip)){
+        const link=document.createElement("a");link.href=analysis.clip;link.target="_blank";link.rel="noopener noreferrer";link.textContent="OTWÓRZ KLIP ↗";main.append(link);
+      }
+      const remove=document.createElement("button");remove.type="button";remove.className="vod-delete";remove.setAttribute("aria-label","Usuń analizę");remove.title="Usuń analizę";remove.textContent="×";
+      remove.addEventListener("click",()=>{vodAnalyses=vodAnalyses.filter(item=>item.id!==analysis.id);localStorage.setItem(VOD_KEY,JSON.stringify(vodAnalyses));renderVodLibrary()});
+      entry.append(main,remove);library.append(entry);
+    });
+  }
+  function saveVodAnalysis(event){
+    event.preventDefault();
+    const category=errorCategories.find(item=>item.name===document.getElementById("vodCategory").value);
+    const clip=document.getElementById("vodClip").value.trim();
+    if(clip&&!/^https?:\/\//i.test(clip)){notify("Link do klipu musi zaczynać się od http:// lub https://.");return}
+    const analysis={id:`${Date.now()}-${Math.random().toString(36).slice(2,8)}`,createdAt:new Date().toISOString(),map:document.getElementById("vodMap").value,round:Number(document.getElementById("vodRound").value),minutes:Math.max(0,Number(vodMinutes.value)||0),category:category?.name||"Inny błąd",happened:document.getElementById("vodHappened").value.trim(),next:document.getElementById("vodNext").value.trim(),clip};
+    vodAnalyses.unshift(analysis);localStorage.setItem(VOD_KEY,JSON.stringify(vodAnalyses));
+    const minutes=vodMinutes.value;vodForm.reset();vodMinutes.value=minutes;persistDaily();renderVodLibrary();notify("Analiza zapisana w bibliotece błędów.");
+  }
+  function trackerUrl(riotId){return `https://tracker.gg/valorant/profile/riot/${encodeURIComponent(riotId)}/overview?platform=pc&playlist=competitive`}
+  function showTrackerProfile(riotId,restore=false){
+    const url=trackerUrl(riotId);
+    trackerInput.value=riotId;trackerFrame.src=url;document.getElementById("openTracker").href=url;
+    trackerResults.classList.add("visible");
+    trackerStatus.textContent=restore?"Przywrócono ostatni wyszukany profil.":"Profil otwiera się w panelu. Jeśli jest prywatny, sprawdź ustawienia widoczności na Tracker.gg.";
+  }
+  function saveTrackerData(){
+    const stats=Object.fromEntries(Object.entries(statFields).map(([key,id])=>[key,document.getElementById(id).value]));
+    localStorage.setItem(TRACKER_KEY,JSON.stringify({riotId:trackerInput.value.trim(),stats}));
+  }
+  function updateAnalysis(){
+    const values=Object.fromEntries(Object.entries(statFields).map(([key,id])=>[key,document.getElementById(id).value===""?null:Number(document.getElementById(id).value)]));
+    const tips=[];
+    if(values.hs!==null){
+      if(values.hs<18)tips.push("HS% poniżej 18: zrób 10 minut krótkich serii na Range, pilnując wysokości głowy, potem 2 DM z naciskiem na pierwszy pocisk.");
+      else if(values.hs<25)tips.push("HS% 18–25: utrwalaj crosshair placement i krótkie serie; po każdej śmierci sprawdź, czy celownik był na wysokości głowy.");
+      else tips.push("HS% 25+: utrzymuj precyzję; w kolejnych meczach skup się na decyzjach i wymianach, nie na samym podbijaniu celności.");
+    }
+    if(values.win!==null){
+      if(values.win<50)tips.push("Win rate poniżej 50%: przeanalizuj 3 ostatnie porażki i zapisz po jednej decyzji do poprawy w każdej.");
+      else tips.push("Win rate 50%+: sprawdź, na których mapach i agentach wynik jest najlepszy, i trzymaj się sprawdzonych wyborów.");
+    }
+    if(values.kd!==null){
+      if(values.kd<0.9)tips.push("K/D poniżej 0,90: ćwicz grę z osłoną i trade'owanie z drużyną; po rundzie sprawdź, czy śmierć dała zespołowi wymianę.");
+      else if(values.kd<=1.1)tips.push("K/D 0,90–1,10: poćwicz przeżywanie po zdobyciu przewagi i unikaj powtarzania tego samego wychylenia.");
+      else tips.push("K/D powyżej 1,10: utrzymuj skuteczność i sprawdź, czy przewagi przekładają się na wygrane rundy.");
+    }
+    if(values.acs!==null)tips.push("ACS traktuj w kontekście roli agenta: przy niskim wyniku przejrzyj obrażenia na rundę i użycie umiejętności, nie tylko liczbę fragów.");
+    const list=document.getElementById("analysisList");list.replaceChildren();
+    if(!tips.length){const empty=document.createElement("li");empty.className="analysis-empty";empty.textContent="Uzupełnij HS%, win rate lub K/D, aby wygenerować wskazówki.";list.append(empty);return}
+    tips.forEach(tip=>{const item=document.createElement("li");item.textContent=tip;list.append(item)});
+  }
+  function loadTrackerData(){
+    try{
+      const saved=JSON.parse(localStorage.getItem(TRACKER_KEY)||"null");
+      const riotId="Julc1a#uwu";
+      showTrackerProfile(riotId,true);
+      Object.entries(statFields).forEach(([key,id])=>{const value=saved?.stats?.[key];if(value!==undefined)document.getElementById(id).value=value});
+    }catch{}
+    updateAnalysis();
+  }
+  boxes.forEach(box=>box.addEventListener("change",persistDaily));
+  note.addEventListener("input",persistDaily);
+  vodMinutes.addEventListener("input",persistDaily);
+  document.querySelectorAll(".warmup-time").forEach(input=>input.addEventListener("input",()=>{syncWarmupChecklist();persistDaily()}));
+  document.getElementById("save").addEventListener("click",()=>{persistDaily();notify("Postęp i notatka zapisane.")});
+  document.getElementById("reset").addEventListener("click",()=>{if(!confirm("Zresetować checklistę, rozgrzewkę, czas VOD i notatkę na dzisiaj?"))return;boxes.forEach(box=>box.checked=false);document.querySelectorAll(".warmup-time").forEach(input=>input.value="0");vodMinutes.value="0";note.value="";persistDaily();notify("Dzień zresetowany.")});
+  document.querySelectorAll(".app-tab").forEach(button=>button.addEventListener("click",()=>setActiveTab(button.dataset.tab)));
+  document.getElementById("logWin").addEventListener("click",()=>recordMatch("win"));
+  document.getElementById("logLoss").addEventListener("click",()=>recordMatch("loss"));
+  document.getElementById("resetMatches").addEventListener("click",resetMatchResults);
+  document.getElementById("matchAgent").addEventListener("change",event=>{gameState.selectedAgent=event.target.value;saveGameState();renderGameData()});
+  document.getElementById("agentForm").addEventListener("submit",event=>{
+    event.preventDefault();const input=document.getElementById("newAgent");
+    if(addAgent(input.value)){input.value="";notify("Agent dodany.")}else{notify("Wpisz nową nazwę agenta.")}
+  });
+  rankForm.addEventListener("submit",event=>event.preventDefault());
+  rankSelect.addEventListener("change",()=>{document.getElementById("tierField").hidden=rankSelect.value==="radiant";updateRankSettings()});
+  tierSelect.addEventListener("change",updateRankSettings);
+  peakRankSelect.addEventListener("change",updateRankSettings);
+  peakTierSelect.addEventListener("change",updateRankSettings);
+  rrInput.addEventListener("input",updateRankSettings);
+  regionSelect.addEventListener("change",updateRankSettings);
+  placementNumber.addEventListener("input",updateRankSettings);
+  document.getElementById("saveRank").addEventListener("click",()=>{updateRankSettings();notify("Ranga zapisana.")});
+  vodForm.addEventListener("submit",saveVodAnalysis);
+  document.getElementById("openSettings").addEventListener("click",openSettings);
+  document.getElementById("resetColors").addEventListener("click",resetColors);
+  document.getElementById("refreshProfile").addEventListener("click",loadRemoteProfile);
+  document.getElementById("closeSettings").addEventListener("click",()=>dialog.close());
+  document.getElementById("cancelSettings").addEventListener("click",()=>dialog.close());
+  trackerForm.addEventListener("submit",event=>{
+    event.preventDefault();const riotId=trackerInput.value.trim().replace(/\s*#\s*/,"#");
+    if(riotId.indexOf("#")<1||riotId.indexOf("#")!==riotId.lastIndexOf("#")||riotId.endsWith("#")){trackerStatus.textContent="Wpisz Riot ID w formacie nick#tag.";return}
+    showTrackerProfile(riotId);saveTrackerData();
+  });
+  Object.values(statFields).forEach(id=>document.getElementById(id).addEventListener("input",()=>{updateAnalysis();saveTrackerData()}));
+  form.addEventListener("submit",event=>{
+    event.preventDefault();const settings={...readSettings()};
+    Object.entries(colorInputs).forEach(([key,id])=>settings[key]=document.getElementById(id).value);
+    const applied=applySettings(settings);localStorage.setItem(SETTINGS_KEY,JSON.stringify(applied));dialog.close();notify("Ustawienia zapisane.");
+  });
+  loadDaily();loadRankSettings();renderRoutineGuide();renderGameData();renderTrainingChart();renderErrorLegend();renderVodLibrary();if(TRACKER_ENABLED)loadTrackerData();
+  loadRemoteProfile();setInterval(()=>{if(document.visibilityState==="visible")loadRemoteProfile()},30*60*1000);
+})();
+</script>
+</body>
+</html>
