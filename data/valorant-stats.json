@@ -1,9 +1,188 @@
 {
-  "available": false,
+  "available": true,
+  "updatedAt": "2026-11-05T08:55:55.607Z",
+  "source": "HenrikDev API",
   "profile": {
     "riotId": "Julc1a#uwu",
+    "name": "Julc1a",
+    "tag": "uwu",
     "region": "eu"
   },
-  "updatedAt": null,
-  "message": "Oczekiwanie na pierwsze uruchomienie GitHub Actions."
+  "rank": {
+    "current": {
+      "key": "bronze",
+      "label": "Brąz",
+      "division": 3,
+      "name": "Brąz 3",
+      "rr": 72,
+      "leaderboardPlacement": null
+    },
+    "peak": {
+      "key": "diamond",
+      "label": "Diament",
+      "division": 1,
+      "name": "Diament 1",
+      "season": "e7a3"
+    }
+  },
+  "summary": {
+    "matches": 10,
+    "wins": 3,
+    "losses": 7,
+    "winRate": 30,
+    "byAgent": [
+      {
+        "name": "Reyna",
+        "games": 3,
+        "kills": 35
+      },
+      {
+        "name": "Jett",
+        "games": 1,
+        "kills": 11
+      },
+      {
+        "name": "Hush",
+        "games": 1,
+        "kills": 9
+      },
+      {
+        "name": "Chamber",
+        "games": 1,
+        "kills": 13
+      },
+      {
+        "name": "Yoru",
+        "games": 1,
+        "kills": 9
+      },
+      {
+        "name": "Fade",
+        "games": 1,
+        "kills": 11
+      },
+      {
+        "name": "Skye",
+        "games": 1,
+        "kills": 12
+      },
+      {
+        "name": "Sage",
+        "games": 1,
+        "kills": 9
+      }
+    ]
+  },
+  "matches": [
+    {
+      "id": "8f36ddcd-f6eb-4b02-b3e5-52bcca164e08",
+      "startedAt": "2026-11-04T17:21:05.264Z",
+      "map": "Abyss",
+      "queue": "Competitive",
+      "agent": "Jett",
+      "result": "loss",
+      "kills": 11,
+      "deaths": 18,
+      "assists": 4
+    },
+    {
+      "id": "789bfee2-6a7b-47c9-a356-0d0eb18eab36",
+      "startedAt": "2026-11-04T16:40:40.955Z",
+      "map": "Summit",
+      "queue": "Competitive",
+      "agent": "Hush",
+      "result": "loss",
+      "kills": 9,
+      "deaths": 16,
+      "assists": 4
+    },
+    {
+      "id": "abba842a-9d43-460c-a714-8138dcf1e697",
+      "startedAt": "2026-11-04T15:58:15.485Z",
+      "map": "Lotus",
+      "queue": "Competitive",
+      "agent": "Chamber",
+      "result": "win",
+      "kills": 13,
+      "deaths": 14,
+      "assists": 1
+    },
+    {
+      "id": "812e8dd4-de4b-4857-9ba8-d098eed68491",
+      "startedAt": "2026-11-04T15:16:01.458Z",
+      "map": "Bind",
+      "queue": "Competitive",
+      "agent": "Yoru",
+      "result": "loss",
+      "kills": 9,
+      "deaths": 17,
+      "assists": 3
+    },
+    {
+      "id": "3522b838-e8d8-4c46-827d-3ea8ff9fa3d1",
+      "startedAt": "2026-11-04T14:37:30.386Z",
+      "map": "Corrode",
+      "queue": "Competitive",
+      "agent": "Fade",
+      "result": "win",
+      "kills": 11,
+      "deaths": 14,
+      "assists": 7
+    },
+    {
+      "id": "d7fcf579-60b8-4fb3-aad1-ee42d53e95d7",
+      "startedAt": "2026-11-03T06:02:18.681Z",
+      "map": "Lotus",
+      "queue": "Competitive",
+      "agent": "Reyna",
+      "result": "win",
+      "kills": 20,
+      "deaths": 13,
+      "assists": 5
+    },
+    {
+      "id": "996a5f9d-1389-4330-8e6f-2398f81c7251",
+      "startedAt": "2026-11-03T05:26:46.068Z",
+      "map": "Sunset",
+      "queue": "Competitive",
+      "agent": "Reyna",
+      "result": "loss",
+      "kills": 12,
+      "deaths": 15,
+      "assists": 4
+    },
+    {
+      "id": "198f9cf8-fb08-4470-91f8-36c2b85a2ddc",
+      "startedAt": "2026-11-03T04:54:12.307Z",
+      "map": "Abyss",
+      "queue": "Competitive",
+      "agent": "Skye",
+      "result": "loss",
+      "kills": 12,
+      "deaths": 16,
+      "assists": 6
+    },
+    {
+      "id": "67eef981-fc37-495e-8458-ce5c1febf01e",
+      "startedAt": "2026-08-06T21:30:53.756Z",
+      "map": "Ascent",
+      "queue": "Competitive",
+      "agent": "Sage",
+      "result": "loss",
+      "kills": 9,
+      "deaths": 16,
+      "assists": 3
+    },
+    {
+      "id": "c1a16f9f-9cd8-4ee8-8a66-cf8816215282",
+      "startedAt": "2026-05-23T16:30:38.591Z",
+      "map": "Lotus",
+      "queue": "Competitive",
+      "agent": "Reyna",
+      "result": "loss",
+      "kills": 3,
+      "deaths": 16,
+      "assists": 3
+    }
+  ]
 }
