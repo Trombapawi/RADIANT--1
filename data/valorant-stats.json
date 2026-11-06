@@ -1,6 +1,6 @@
 {
   "available": true,
-  "updatedAt": "2026-11-05T17:28:30.163Z",
+  "updatedAt": "2026-11-06T16:50:11.766Z",
   "source": "HenrikDev API",
   "profile": {
     "riotId": "Julc1a#uwu",
@@ -14,7 +14,7 @@
       "label": "Brąz",
       "division": 3,
       "name": "Brąz 3",
-      "rr": 44,
+      "rr": 38,
       "leaderboardPlacement": null
     },
     "peak": {
@@ -27,19 +27,19 @@
   },
   "summary": {
     "matches": 10,
-    "wins": 3,
-    "losses": 7,
-    "winRate": 30,
+    "wins": 4,
+    "losses": 6,
+    "winRate": 40,
     "byAgent": [
       {
         "name": "Chamber",
-        "games": 2,
-        "kills": 22
+        "games": 3,
+        "kills": 23
       },
       {
-        "name": "Reyna",
-        "games": 2,
-        "kills": 32
+        "name": "Sage",
+        "games": 1,
+        "kills": 7
       },
       {
         "name": "Vyse",
@@ -67,13 +67,35 @@
         "kills": 11
       },
       {
-        "name": "Skye",
+        "name": "Reyna",
         "games": 1,
-        "kills": 12
+        "kills": 20
       }
     ]
   },
   "matches": [
+    {
+      "id": "db52a8b3-fc76-4839-a484-3c74c71e5de6",
+      "startedAt": "2026-11-05T22:37:34.063Z",
+      "map": "Summit",
+      "queue": "Competitive",
+      "agent": "Sage",
+      "result": "win",
+      "kills": 7,
+      "deaths": 15,
+      "assists": 7
+    },
+    {
+      "id": "60452d17-fae3-4504-8104-89eeed132b7d",
+      "startedAt": "2026-11-05T22:10:37.072Z",
+      "map": "Haven",
+      "queue": "Competitive",
+      "agent": "Chamber",
+      "result": "loss",
+      "kills": 1,
+      "deaths": 14,
+      "assists": 2
+    },
     {
       "id": "448a2100-c7f4-4f3b-b9e8-54e326574731",
       "startedAt": "2026-11-05T11:13:21.57Z",
@@ -161,28 +183,6 @@
       "kills": 20,
       "deaths": 13,
       "assists": 5
-    },
-    {
-      "id": "996a5f9d-1389-4330-8e6f-2398f81c7251",
-      "startedAt": "2026-11-03T05:26:46.068Z",
-      "map": "Sunset",
-      "queue": "Competitive",
-      "agent": "Reyna",
-      "result": "loss",
-      "kills": 12,
-      "deaths": 15,
-      "assists": 4
-    },
-    {
-      "id": "198f9cf8-fb08-4470-91f8-36c2b85a2ddc",
-      "startedAt": "2026-11-03T04:54:12.307Z",
-      "map": "Abyss",
-      "queue": "Competitive",
-      "agent": "Skye",
-      "result": "loss",
-      "kills": 12,
-      "deaths": 16,
-      "assists": 6
     }
   ]
 }
