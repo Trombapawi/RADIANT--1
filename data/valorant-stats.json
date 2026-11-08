@@ -1,6 +1,6 @@
 {
   "available": true,
-  "updatedAt": "2026-11-07T15:44:28.488Z",
+  "updatedAt": "2026-11-08T16:03:33.663Z",
   "source": "HenrikDev API",
   "profile": {
     "riotId": "Julc1a#uwu",
@@ -14,7 +14,7 @@
       "label": "Brąz",
       "division": 3,
       "name": "Brąz 3",
-      "rr": 38,
+      "rr": 13,
       "leaderboardPlacement": null
     },
     "peak": {
@@ -27,14 +27,19 @@
   },
   "summary": {
     "matches": 10,
-    "wins": 4,
-    "losses": 6,
-    "winRate": 40,
+    "wins": 3,
+    "losses": 7,
+    "winRate": 30,
     "byAgent": [
       {
         "name": "Chamber",
         "games": 3,
         "kills": 23
+      },
+      {
+        "name": "Clove",
+        "games": 1,
+        "kills": 3
       },
       {
         "name": "Sage",
@@ -65,15 +70,21 @@
         "name": "Fade",
         "games": 1,
         "kills": 11
-      },
-      {
-        "name": "Reyna",
-        "games": 1,
-        "kills": 20
       }
     ]
   },
   "matches": [
+    {
+      "id": "65e6883a-f14e-4ebd-b09c-1bf32f9cecc0",
+      "startedAt": "2026-11-07T20:00:45.363Z",
+      "map": "Haven",
+      "queue": "Competitive",
+      "agent": "Clove",
+      "result": "loss",
+      "kills": 3,
+      "deaths": 4,
+      "assists": 2
+    },
     {
       "id": "db52a8b3-fc76-4839-a484-3c74c71e5de6",
       "startedAt": "2026-11-05T22:37:34.063Z",
@@ -172,17 +183,6 @@
       "kills": 11,
       "deaths": 14,
       "assists": 7
-    },
-    {
-      "id": "d7fcf579-60b8-4fb3-aad1-ee42d53e95d7",
-      "startedAt": "2026-11-03T06:02:18.681Z",
-      "map": "Lotus",
-      "queue": "Competitive",
-      "agent": "Reyna",
-      "result": "win",
-      "kills": 20,
-      "deaths": 13,
-      "assists": 5
     }
   ]
 }
